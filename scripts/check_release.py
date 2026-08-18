@@ -4,12 +4,20 @@ print("Ignition Update Manager Running")
 
 import requests
 
-url = "https://inductiveautomation.com/downloads/releasenotes"
+urls = [
+    "https://inductiveautomation.com/downloads/releasenotes",
+    "https://inductiveautomation.com/sitemap.xml",
+    "https://inductiveautomation.com/robots.txt"
+]
 
-response = requests.get(url, timeout=30)
+for url in urls:
+    try:
+        r = requests.get(url, timeout=30)
 
-print("Status:", response.status_code)
-
-print("\n----- FIRST 2000 CHARACTERS -----\n")
-print(response.text[:2000])
-print("\n----- END -----\n")
+        print("=" * 60)
+        print(url)
+        print("Status:", r.status_code)
+        print(r.text[:500])
+        print()
+    except Exception as e:
+        print(url, e)
